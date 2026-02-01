@@ -1,0 +1,12 @@
+name = "worker-panel"
+main = "src/worker.ts"
+compatibility_date = "2024-05-29"
+
+# KV Namespace for storing settings
+[[kv_namespaces]]
+binding = "settings"
+id = "YOUR_KV_NAMESPACE_ID"
+
+# Environment variables
+[vars]
+# PASSWORD = "your-password-here"  # Optional: Set via wrangler secret put PASSWORD
