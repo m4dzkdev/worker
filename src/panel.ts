@@ -616,8 +616,12 @@ export async function handlePanelPost(request: Request, env: Env): Promise<Respo
     // Handle password update if provided
     const newPassword = formData.get('newPassword');
     if (newPassword) {
-      const bcrypt = require('bcryptjs');
-      const hash = await bcrypt.hash(newPassword, 10);
+      // Use Web Crypto API (bcrypt not supported in Workers)
+      const encoder = new TextEncoder();
+      const data = encoder.encode(newPassword as string);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      const hash = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
       await env.settings.put('passwordHash', hash);
     }
 

@@ -1,12 +1,5 @@
 var __defProp = Object.defineProperty;
 var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
-var __require = /* @__PURE__ */ ((x) => typeof require !== "undefined" ? require : typeof Proxy !== "undefined" ? new Proxy(x, {
-  get: (a, b) => (typeof require !== "undefined" ? require : a)[b]
-}) : x)(function(x) {
-  if (typeof require !== "undefined")
-    return require.apply(this, arguments);
-  throw new Error('Dynamic require of "' + x + '" is not supported');
-});
 
 // src/constants.ts
 var CLOUDFLARE_PORTS = [443, 2053, 2083, 2087, 2096, 8443];
@@ -645,8 +638,11 @@ async function handlePanelPost(request, env) {
     ]);
     const newPassword = formData.get("newPassword");
     if (newPassword) {
-      const bcrypt = __require("bcryptjs");
-      const hash = await bcrypt.hash(newPassword, 10);
+      const encoder = new TextEncoder();
+      const data = encoder.encode(newPassword);
+      const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      const hash = hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
       await env.settings.put("passwordHash", hash);
     }
     const url = new URL(request.url);
