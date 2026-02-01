@@ -2,9 +2,9 @@ import { VlessConfig, TrojanConfig, AddressInfo } from './interfaces';
 import { CLOUDFLARE_PORTS } from './constants';
 
 // UUID v5 generation
-export function generateUUIDv5(name: string, namespace: string = '6ba7b810-9dad-11d1-80b4-00c04fd430c8'): string {
+export async function generateUUIDv5(name: string, namespace: string = '6ba7b810-9dad-11d1-80b4-00c04fd430c8'): Promise<string> {
   // Simple UUID generation based on string hash
-  const hash = sha256(namespace + name);
+  const hash = await sha256(namespace + name);
   return [
     hash.substring(0, 8),
     hash.substring(8, 12),
@@ -37,7 +37,7 @@ export async function generateVlessConfig(
   path: string = '/vless-ws',
   remark: string = 'Worker-VLESS'
 ): Promise<VlessConfig> {
-  const uuid = generateUUIDv5(sni);
+  const uuid = await generateUUIDv5(sni);
 
   return {
     type: 'vless',

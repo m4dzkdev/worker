@@ -662,8 +662,8 @@ async function handlePanelPost(request, env) {
 __name(handlePanelPost, "handlePanelPost");
 
 // src/helpers.ts
-function generateUUIDv5(name, namespace = "6ba7b810-9dad-11d1-80b4-00c04fd430c8") {
-  const hash = sha256(namespace + name);
+async function generateUUIDv5(name, namespace = "6ba7b810-9dad-11d1-80b4-00c04fd430c8") {
+  const hash = await sha256(namespace + name);
   return [
     hash.substring(0, 8),
     hash.substring(8, 12),
@@ -687,7 +687,7 @@ async function sha224(message) {
 }
 __name(sha224, "sha224");
 async function generateVlessConfig(address, port, sni, path = "/vless-ws", remark = "Worker-VLESS") {
-  const uuid = generateUUIDv5(sni);
+  const uuid = await generateUUIDv5(sni);
   return {
     type: "vless",
     id: uuid,
