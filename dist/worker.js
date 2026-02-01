@@ -1032,6 +1032,7 @@ async function simpleHashCompare(password, hash) {
 __name(simpleHashCompare, "simpleHashCompare");
 
 // src/vless.ts
+import { connect } from "cloudflare:sockets";
 var WS_READY_STATE_OPEN = 1;
 var WS_READY_STATE_CLOSING = 2;
 async function handleVlessWebSocket(request, userID) {
@@ -1226,6 +1227,7 @@ function closeWebSocket(webSocket) {
 __name(closeWebSocket, "closeWebSocket");
 
 // src/trojan.ts
+import { connect as connect2 } from "cloudflare:sockets";
 var WS_READY_STATE_OPEN2 = 1;
 var WS_READY_STATE_CLOSING2 = 2;
 async function handleTrojanWebSocket(request, password) {
@@ -1344,7 +1346,7 @@ async function parseTrojanHeader(trojanBuffer, expectedPassword) {
 }
 __name(parseTrojanHeader, "parseTrojanHeader");
 async function handleTCPOutBound2(webSocket, addressRemote, portRemote, rawClientData) {
-  const tcpSocket = connect({
+  const tcpSocket = connect2({
     hostname: addressRemote,
     port: portRemote
   });

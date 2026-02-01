@@ -1,3 +1,4 @@
+import { connect } from 'cloudflare:sockets';
 import { sha224 } from './helpers';
 
 const WS_READY_STATE_OPEN = 1;
