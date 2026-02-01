@@ -253,7 +253,7 @@ async function loadSettings(env: Env) {
 async function getWorkerUUID(env: Env): Promise<string> {
   let uuid = await env.settings.get('workerUUID');
   if (!uuid) {
-    uuid = generateUUIDv5('worker-panel-' + Date.now());
+    uuid = await generateUUIDv5('worker-panel-' + Date.now());
     await env.settings.put('workerUUID', uuid);
   }
   return uuid;

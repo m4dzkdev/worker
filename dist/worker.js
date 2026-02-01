@@ -2033,7 +2033,7 @@ __name(loadSettings2, "loadSettings");
 async function getWorkerUUID(env) {
   let uuid = await env.settings.get("workerUUID");
   if (!uuid) {
-    uuid = generateUUIDv5("worker-panel-" + Date.now());
+    uuid = await generateUUIDv5("worker-panel-" + Date.now());
     await env.settings.put("workerUUID", uuid);
   }
   return uuid;
